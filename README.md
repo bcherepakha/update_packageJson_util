@@ -1,11 +1,35 @@
 # script that updates package.json in BitBucket repo and opens a pull request
 
-Small CLI tool to create PR on bitbucket with updated package in dependencies or devDependencies package.json.
+Small tool to create PR on bitbucket with updated package in dependencies or devDependencies package.json.
 
 ## Usage
 
 preferred **node v.17 and upper**
 tested on **node v.20.8.1**
+
+The utility is located at ./utils/updatePackageJson.js and import function that can be called to perform the task.
+
+```js
+import { updatePackageJson } from './utils/updatePackageJson.js';
+
+updatePackageJson({
+    // bot email adress for commits
+    BITBUCKET_BOT_EMAIL: 'some@bots.bitbucket.org',
+    // bot token for authirization
+    BITBUCKET_TOKEN: 'some token',
+    // repository owner (workspace)
+    BITBUCKET_REPO_OWNER: 'bcherepakha',
+    // repository name
+    BITBUCKET_REPO_NAME: 'test_update_package_util',
+    // branch when we get package.json and destination for PR
+    BITBUCKET_REPO_DESTINATION_BRANCH_NAME: 'main',
+    // name and version of the package what we want to change in dependencies
+    NPM_PACKAGE_NAME: 'react',
+    NPM_PACKAGE_VERSION: '0.0.12',
+    // space for formating json file JSON.stringify(text, null, space)
+    JSON_STRINGIFY_SPACE: 2
+});
+```
 
 ## Setup authentication
 
@@ -14,21 +38,15 @@ and I may add standard parameters for the CLI afterward.
 
 ## How it works
 
-1. Fetch the content of package.json from the repository. (by Clone repository using git in temp folder)
-2. create new branch `update_NPM_PACKAGE_NAME_NPM_PACKAGE_VERSION` (or need todo fork think about access?)
-3. Update the dependency to the specified version in package.json (is always package.json in root)
-4. commit changes locally using git
-5. Upload the updated package.json file back to the repository. (push the branch, using git)
-6. Open a pull request from the creation branch to destination branch (using bitbucket api)
+1. Fetch content of package.info
+2. Change content of package.info
+3. Create a commit by uploading a new package.json to a new branch
+4. Create pull request
 
-## To Do
+all errors and steps logs to console
 
-* think about using with another services (expected then all except p6 may reused)
-* think about store parameters (CLI)
-* think about update .lock (can be using npm or yarn)
-* replace console log by someone beautiful and more functional logger
-* think to fetch only package.json without cloning all files from repository
-* think about version (only existing)
-* add typescript
-* git maybe not installed
-* think about add parameter for new branch name
+## TODO
+
+* use logger for logs and errors
+* use typescript if have time
+* Think about preserving the original formatting of the file.
