@@ -7,7 +7,7 @@ Small tool to create PR on bitbucket with updated package in dependencies or dev
 preferred **node v.17 and upper**
 tested on **node v.20.8.1**
 
-The utility is located at ./utils/updatePackageJson.js and import function that can be called to perform the task.
+The utility is located at ./utils/updatePackageJson.js and import function that can be called to perform the task. This utility do not needed any dependency.
 
 ```js
 import { updatePackageJson } from './utils/updatePackageJson.js';
@@ -28,7 +28,15 @@ updatePackageJson({
     NPM_PACKAGE_VERSION: '0.0.12',
     // space for formating json file JSON.stringify(text, null, space)
     JSON_STRINGIFY_SPACE: 2
-});
+}).catch(err => console.log(err.message));
+```
+
+Also. You can use it like CLI utils with parameters if install dependencies:
+
+for installing dependencies you can use:
+
+```sh
+> node updateBitbucketPackage.js -be someEmail@bots.bitbucket.org -t some_token -w workspace -r repositoryName -b destinationBranch -p packageName@packageVersion
 ```
 
 ## Setup authentication

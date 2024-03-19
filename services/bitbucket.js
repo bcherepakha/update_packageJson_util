@@ -110,10 +110,10 @@ export async function createPullRequest({
       body: JSON.stringify(body)
     });
 
-    const data = await response.text();
+    const data = await response.json();
 
     if (response.status !== 201) {
-      throw new Error(`[Bitbucket API] ${JSON.parse(data).error.message}`);
+      throw new Error(`[Bitbucket API] ${data.error.message}`);
     }
 
     return data;
