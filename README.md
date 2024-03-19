@@ -36,7 +36,7 @@ Also. You can use it like CLI utils with parameters if install dependencies:
 for installing dependencies you can use:
 
 ```sh
-> node updateBitbucketPackage.js -be someEmail@bots.bitbucket.org -t some_token -w workspace -r repositoryName -b destinationBranch -p packageName@packageVersion
+node updateBitbucketPackage.js -be someEmail@bots.bitbucket.org -t some_token -w workspace -r repositoryName -b destinationBranch -p packageName@packageVersion
 ```
 
 ## Setup authentication
