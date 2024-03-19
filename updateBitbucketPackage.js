@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
 import { program } from 'commander';
 import { updatePackageJson } from './utils/updatePackageJson.js';
 
@@ -18,19 +19,27 @@ program
   .action(async (options) => {
     const { botEmail, token, workspace, repository, branch = 'main', packageData } = options;
     const [packageName, packageVersion] = packageData.split('@');
+    const {
+      BITBUCKET_BOT_EMAIL,
+      BITBUCKET_TOKEN,
+      BITBUCKET_REPO_OWNER,
+      BITBUCKET_REPO_NAME,
+      BITBUCKET_REPO_DESTINATION_BRANCH_NAME,
+      NPM_PACKAGE_NAME,
+      NPM_PACKAGE_VERSION,
+      JSON_STRINGIFY_SPACE
+    } = process.env;
 
     try {
       await updatePackageJson({
-        BITBUCKET_BOT_EMAIL: botEmail,
-        BITBUCKET_TOKEN: token,
-        BITBUCKET_REPO_OWNER: workspace,
-        BITBUCKET_REPO_NAME: repository,
-        BITBUCKET_REPO_DESTINATION_BRANCH_NAME: branch,
-        NPM_PACKAGE_NAME: packageName,
-        NPM_PACKAGE_VERSION: packageVersion,
-        // space for formating json file JSON.stringify(text, null, space)
-        JSON_STRINGIFY_SPACE: 2,
-        logger: (...args) => console.log('\x1b[32m%s\x1b[0m', ...args)
+        BITBUCKET_BOT_EMAIL: botEmail || BITBUCKET_BOT_EMAIL,
+        BITBUCKET_TOKEN: token || BITBUCKET_TOKEN,
+        BITBUCKET_REPO_OWNER: workspace || BITBUCKET_REPO_OWNER,
+        BITBUCKET_REPO_NAME: repository || BITBUCKET_REPO_NAME,
+        BITBUCKET_REPO_DESTINATION_BRANCH_NAME: branch || BITBUCKET_REPO_DESTINATION_BRANCH_NAME,
+        NPM_PACKAGE_NAME: packageName || NPM_PACKAGE_NAME,
+        NPM_PACKAGE_VERSION: packageVersion || NPM_PACKAGE_VERSION,
+        JSON_STRINGIFY_SPACE: JSON_STRINGIFY_SPACE || 2,
       });
     } catch (error) {
       process.exit(1);
