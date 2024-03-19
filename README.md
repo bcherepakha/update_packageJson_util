@@ -28,7 +28,7 @@ updatePackageJson({
     NPM_PACKAGE_VERSION: '0.0.12',
     // space for formating json file JSON.stringify(text, null, space)
     JSON_STRINGIFY_SPACE: 2
-}).catch(err => console.log(err.message));
+}).catch(() => null);
 ```
 
 Also. You can use it like CLI utils with parameters if install dependencies:
