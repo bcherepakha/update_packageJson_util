@@ -32,14 +32,14 @@ program
 
     try {
       await updatePackageJson({
-        BITBUCKET_BOT_EMAIL: botEmail || BITBUCKET_BOT_EMAIL,
-        BITBUCKET_TOKEN: token || BITBUCKET_TOKEN,
-        BITBUCKET_REPO_OWNER: workspace || BITBUCKET_REPO_OWNER,
-        BITBUCKET_REPO_NAME: repository || BITBUCKET_REPO_NAME,
-        BITBUCKET_REPO_DESTINATION_BRANCH_NAME: branch || BITBUCKET_REPO_DESTINATION_BRANCH_NAME,
-        NPM_PACKAGE_NAME: packageName || NPM_PACKAGE_NAME,
-        NPM_PACKAGE_VERSION: packageVersion || NPM_PACKAGE_VERSION,
-        JSON_STRINGIFY_SPACE: JSON_STRINGIFY_SPACE || 2,
+        botEmail: botEmail || BITBUCKET_BOT_EMAIL,
+        token: token || BITBUCKET_TOKEN,
+        owner: workspace || BITBUCKET_REPO_OWNER,
+        repoName: repository || BITBUCKET_REPO_NAME,
+        destinationBranch: branch || BITBUCKET_REPO_DESTINATION_BRANCH_NAME,
+        dependencyName: packageName || NPM_PACKAGE_NAME,
+        dependencyVersion: packageVersion || NPM_PACKAGE_VERSION,
+        jsonStringifySpace: JSON_STRINGIFY_SPACE || 2,
       });
     } catch (error) {
       process.exit(1);

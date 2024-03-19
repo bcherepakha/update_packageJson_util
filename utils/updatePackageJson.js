@@ -3,22 +3,22 @@ import { udateDependency } from '../services/package.js';
 import { ProgressStepLogger, ProcessStdoutLogger } from './progressStepLogger.js';
 
 export async function updatePackageJson({
-  BITBUCKET_BOT_EMAIL,
-  BITBUCKET_TOKEN,
-  BITBUCKET_REPO_OWNER,
-  BITBUCKET_REPO_NAME,
-  BITBUCKET_REPO_DESTINATION_BRANCH_NAME,
-  NPM_PACKAGE_NAME,
-  NPM_PACKAGE_VERSION,
-  JSON_STRINGIFY_SPACE = 2,
+  botEmail,
+  token,
+  owner,
+  repoName,
+  destinationBranch,
+  dependencyName,
+  dependencyVersion,
+  jsonStringifySpace = 2,
   logger = new ProgressStepLogger(new ProcessStdoutLogger()),
 }) {
   const gitApi = new BitbucketApi({
-    token: BITBUCKET_TOKEN,
-    owner: BITBUCKET_REPO_OWNER,
-    repoName: BITBUCKET_REPO_NAME,
-    botEmail: BITBUCKET_BOT_EMAIL,
-    destinationBranch: BITBUCKET_REPO_DESTINATION_BRANCH_NAME
+    token,
+    owner,
+    repoName,
+    botEmail,
+    destinationBranch
   });
   const filePath = 'package.json';
 
@@ -29,18 +29,18 @@ export async function updatePackageJson({
     logger.complete(ProgressStepLogger.STATUS.SUCCESS);
 
     logger.startTask('Change content of package.info');
-    const newPackageJsonContent = udateDependency(packageJsonContent, NPM_PACKAGE_NAME, NPM_PACKAGE_VERSION);
+    const newPackageJsonContent = udateDependency(packageJsonContent, dependencyName, dependencyVersion);
 
     logger.complete(ProgressStepLogger.STATUS.SUCCESS);
 
     logger.startTask('Create a commit by uploading a new package.json to a new branch');
-    const newBranchName = `update_${NPM_PACKAGE_NAME}_${NPM_PACKAGE_VERSION}`;
+    const newBranchName = `update_${dependencyName}_${dependencyVersion}`;
 
     await gitApi.createCommitByUpdateTheFile(
       newBranchName,
       filePath,
-      JSON.stringify(newPackageJsonContent, null, JSON_STRINGIFY_SPACE),
-      `update version of ${NPM_PACKAGE_NAME} to ${NPM_PACKAGE_VERSION}`
+      JSON.stringify(newPackageJsonContent, null, jsonStringifySpace),
+      `update version of ${dependencyName} to ${dependencyVersion}`
     );
 
     logger.complete(ProgressStepLogger.STATUS.SUCCESS);
@@ -48,8 +48,8 @@ export async function updatePackageJson({
     logger.startTask('Create pull request');
     const pullRequest = await gitApi.createPullRequest(
       newBranchName,
-      `This pull request updates dependency ${NPM_PACKAGE_NAME} in package.json to version ${NPM_PACKAGE_VERSION}`,
-      `update version of ${NPM_PACKAGE_NAME} to ${NPM_PACKAGE_VERSION}`
+      `This pull request updates dependency ${dependencyName} in package.json to version ${dependencyVersion}`,
+      `update version of ${dependencyName} to ${dependencyVersion}`
     );
 
     logger.complete(ProgressStepLogger.STATUS.SUCCESS);

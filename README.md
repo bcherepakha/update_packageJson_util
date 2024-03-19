@@ -14,20 +14,20 @@ import { updatePackageJson } from './utils/updatePackageJson.js';
 
 updatePackageJson({
     // bot email adress for commits
-    BITBUCKET_BOT_EMAIL: 'some@bots.bitbucket.org',
+    botEmail: 'some@bots.bitbucket.org',
     // bot token for authirization
-    BITBUCKET_TOKEN: 'some token',
+    token: 'some token',
     // repository owner (workspace)
-    BITBUCKET_REPO_OWNER: 'bcherepakha',
+    owner: 'bcherepakha',
     // repository name
-    BITBUCKET_REPO_NAME: 'test_update_package_util',
+    repoName: 'test_update_package_util',
     // branch when we get package.json and destination for PR
-    BITBUCKET_REPO_DESTINATION_BRANCH_NAME: 'main',
+    destinationBranch: 'main',
     // name and version of the package what we want to change in dependencies
-    NPM_PACKAGE_NAME: 'react',
-    NPM_PACKAGE_VERSION: '0.0.12',
+    dependencyName: 'react',
+    dependencyVersion: '0.0.12',
     // space for formating json file JSON.stringify(text, null, space)
-    JSON_STRINGIFY_SPACE: 2
+    jsonStringifySpace: 2
 }).catch(() => null);
 ```
 
