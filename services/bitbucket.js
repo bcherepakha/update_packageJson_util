@@ -9,6 +9,9 @@ export class BitbucketApi {
     };
   }
 
+  // FIXME: Maybe we do not need static method because
+  // this has remained and been carried over from the early versions of the library
+  // and attempts to make the architecture independent of the API.
   static async getFileContent({token, baseURL, branchName, filePath}) {
     try {
         const response = await fetch(
